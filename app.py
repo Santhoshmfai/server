@@ -286,8 +286,9 @@ def upload_project():
         if not all([title, description, github_link, live_demo_link]):
             return jsonify({'error': 'Missing required fields'}), 400
         
-        # Generate project ID (you might want to use MongoDB's auto ID instead)
-        project_id = str(len(projects) + 1)
+        # Count existing projects to generate an ID
+        project_count = collection.count_documents({"type": "project"})
+        project_id = str(project_count + 1)
         
         # Store in MongoDB
         project_data = {
