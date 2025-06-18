@@ -13,9 +13,11 @@ app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
         "origins": [
-            "https://your-portfolio-frontend.onrender.com",
-            "http://localhost:3000"  # for local development
-        ]
+            "https://santhoshportfolio.onrender.com",
+            "http://localhost:3000"
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
     }
 })
 mongo_uri = os.getenv("MONGO_URI")
