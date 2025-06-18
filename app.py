@@ -528,6 +528,21 @@ def get_menu_icon():
         mimetype=menu_icon.get("content_type", "image/png"),
         as_attachment=False
     )    
-
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint"""
+    try:
+        # Verify database connection by pinging MongoDB
+        client.admin.command('ping')
+        return jsonify({
+            "status": "healthy",
+            "database": "connected"
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "status": "unhealthy",
+            "database": "disconnected",
+            "error": str(e)
+        }), 500
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
